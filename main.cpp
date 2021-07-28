@@ -65,7 +65,7 @@ struct TFun                                //4
 {
     T* compare(T* a, T* b) //5
     {   
-        if (a != nullptr & b != nullptr)
+        if (a != nullptr && b != nullptr)
         {
             if( a->value < b->value ) return a;
             if( a->value > b->value ) return b;
@@ -99,7 +99,7 @@ struct UFun
 {
     static float funA(U* that, float* updatedValue)        //10
     {
-        if (that != nullptr & updatedValue != nullptr)
+        if (that != nullptr && updatedValue != nullptr)
         {
             std::cout << "U's v1 value: " << that->v1 << std::endl;
             that->v1 = *updatedValue;
