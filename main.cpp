@@ -64,9 +64,12 @@ struct T
 struct TFun                                //4
 {
     T* compare(T* a, T* b) //5
-    {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+    {   
+        if (a != nullptr & b != nullptr)
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
+        }
         return nullptr;
     }
 };
@@ -76,15 +79,19 @@ struct U
     float v1 { 0 }, v2 { 0 };
     float funA(float* updatedValue)      //12
     {
-        std::cout << "U's v1 value: " << v1 << std::endl;
-        v1 = *updatedValue;
-        std::cout << "U's v1 updated value: " << v1 << std::endl;
-        while(std::abs(v2 - v1) > 0.001f)
+        if (updatedValue != nullptr)
         {
-            v2 += 0.1f;
+            std::cout << "U's v1 value: " << v1 << std::endl;
+            v1 = *updatedValue;
+            std::cout << "U's v1 updated value: " << v1 << std::endl;
+            while(std::abs(v2 - v1) > 0.001f)
+            {
+                v2 += 0.1f;
+            }
+            std::cout << "U's v2 updated value: " << v2 << std::endl;
+            return v2 * v1;
         }
-        std::cout << "U's v2 updated value: " << v2 << std::endl;
-        return v2 * v1;
+        return 0.f;
     }
 };
 
@@ -92,15 +99,19 @@ struct UFun
 {
     static float funA(U* that, float* updatedValue)        //10
     {
-        std::cout << "U's v1 value: " << that->v1 << std::endl;
-        that->v1 = *updatedValue;
-        std::cout << "U's v1 updated value: " << that->v1 << std::endl;
-        while(std::abs(that->v2 - that->v1) > 0.001f)
+        if (that != nullptr & updatedValue != nullptr)
         {
-            that->v2 += 0.1f;
+            std::cout << "U's v1 value: " << that->v1 << std::endl;
+            that->v1 = *updatedValue;
+            std::cout << "U's v1 updated value: " << that->v1 << std::endl;
+            while(std::abs(that->v2 - that->v1) > 0.001f)
+            {
+                that->v2 += 0.1f;
+            }
+            std::cout << "U's v2 updated value: " << that->v2 << std::endl;
+            return that->v2 * that->v1;
         }
-        std::cout << "U's v2 updated value: " << that->v2 << std::endl;
-        return that->v2 * that->v1;
+        return 0.f;
     }
 };
         
