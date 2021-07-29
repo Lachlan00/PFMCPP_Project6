@@ -42,41 +42,33 @@ struct TFun                                //4
 struct U
 {
     float v1 { 0 }, v2 { 0 };
-    float funA(float* updatedValue)      //12
+    float funA(float& updatedValue)      //12
     {
-        if (updatedValue != nullptr)
+        std::cout << "U's v1 value: " << v1 << std::endl;
+        v1 = updatedValue;
+        std::cout << "U's v1 updated value: " << v1 << std::endl;
+        while(std::abs(v2 - v1) > 0.001f)
         {
-            std::cout << "U's v1 value: " << v1 << std::endl;
-            v1 = *updatedValue;
-            std::cout << "U's v1 updated value: " << v1 << std::endl;
-            while(std::abs(v2 - v1) > 0.001f)
-            {
-                v2 += 0.1f;
-            }
-            std::cout << "U's v2 updated value: " << v2 << std::endl;
-            return v2 * v1;
+            v2 += 0.1f;
         }
-        return 0.f;
+        std::cout << "U's v2 updated value: " << v2 << std::endl;
+        return v2 * v1;
     }
 };
 
 struct UFun
 {
-    static float funA(U* that, float* updatedValue)        //10
+    static float funA(U& that, float& updatedValue)        //10
     {
-        if (that != nullptr && updatedValue != nullptr)
+        std::cout << "U's v1 value: " << that.v1 << std::endl;
+        that.v1 = updatedValue;
+        std::cout << "U's v1 updated value: " << that.v1 << std::endl;
+        while(std::abs(that.v2 - that.v1) > 0.001f)
         {
-            std::cout << "U's v1 value: " << that->v1 << std::endl;
-            that->v1 = *updatedValue;
-            std::cout << "U's v1 updated value: " << that->v1 << std::endl;
-            while(std::abs(that->v2 - that->v1) > 0.001f)
-            {
-                that->v2 += 0.1f;
-            }
-            std::cout << "U's v2 updated value: " << that->v2 << std::endl;
-            return that->v2 * that->v1;
+            that.v2 += 0.1f;
         }
-        return 0.f;
+        std::cout << "U's v2 updated value: " << that.v2 << std::endl;
+        return that.v2 * that.v1;
     }
 };
         
@@ -105,16 +97,10 @@ int main()
     
     U u1;
     float updatedValue = 5.f;
-    std::cout << "[static func] u1's multiplied values: " << UFun::funA(&u1, &updatedValue) << std::endl;                  //11
+    std::cout << "[static func] u1's multiplied values: " << UFun::funA(u1, updatedValue) << std::endl;                  //11
     
     U u2;
-    std::cout << "[member func] u2's multiplied values: " << u2.funA( &updatedValue ) << std::endl;
+    std::cout << "[member func] u2's multiplied values: " << u2.funA(updatedValue) << std::endl;
 }
 
-        
-        
-        
-        
-        
-        
         
