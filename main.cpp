@@ -28,10 +28,11 @@ struct T
 
 struct TFun                                //4
 {
-    T& compare(T& a, T& b) //5
+    T* compare(T& a, T& b) //5
     {   
-        if( a.value < b.value ) return a;
-        return b;
+        if( a.value < b.value ) return &a;
+        if( a.value > b.value ) return &b;
+        return nullptr;
     }
 };
 
@@ -88,8 +89,8 @@ int main()
     T t2(42, "t2");                                             //6
     
     TFun f;                                            //7
-    auto& smaller = f.compare(t1, t2);                              //8
-    std::cout << "the smaller one is << " << smaller.name << std::endl; //9
+    auto* smaller = f.compare(t1, t2);                              //8
+    std::cout << "the smaller one is << " << (smaller != nullptr ? smaller->name: "..well actually, they are the same..") << std::endl; //9
     
     U u1;
     float updatedValue = 5.f;
